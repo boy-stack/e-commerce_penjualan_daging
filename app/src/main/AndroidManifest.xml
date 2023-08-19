@@ -40,6 +40,7 @@
         <activity android:name="com.example.e_commerce_penjualan_daging.activity.TambahAlamatActivity" >
 
         </activity>
+        <activity android:name="com.example.e_commerce_penjualan_daging.activity.PembayaranActivity" />
     </application>
 
 </manifest>

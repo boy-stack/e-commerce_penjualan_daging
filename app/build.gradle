@@ -16,8 +16,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.e_commerce_penjualan_daging"
-        minSdk 33
-        targetSdk 34
+        minSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 

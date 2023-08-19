@@ -1,8 +1,10 @@
 package com.example.e_commerce_penjualan_daging.app
 
+import com.example.e_commerce_penjualan_daging.model.Checkout
 import com.example.e_commerce_penjualan_daging.model.ResponModel
 import com.example.e_commerce_penjualan_daging.model.rajaongkir.ResponOngkir
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -27,6 +29,10 @@ interface ApiService {
         @Field("password") password: String,
     ): Call<ResponModel>
 
+    @POST("checkout")
+    fun checkout(
+        @Body data: Checkout
+    ): Call<ResponModel>
 
     @GET("produk")
     fun getProduk(): Call<ResponModel>
