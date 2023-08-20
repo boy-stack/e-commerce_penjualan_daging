@@ -13,8 +13,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_commerce_penjualan_daging.R
+import com.example.e_commerce_penjualan_daging.activity.MasukActivity
 import com.example.e_commerce_penjualan_daging.activity.PengirimanActivity
 import com.example.e_commerce_penjualan_daging.adapter.AdapterKeranjang
+import com.example.e_commerce_penjualan_daging.helper.SharedPref
 import com.example.e_commerce_penjualan_daging.model.Produk
 import com.example.e_commerce_penjualan_daging.room.MyDatabase
 import io.reactivex.Observable
@@ -25,10 +27,12 @@ import io.reactivex.schedulers.Schedulers
 class KeranjangFragment : Fragment() {
 
     lateinit var myDb : MyDatabase
+    lateinit var s :SharedPref
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_keranjang, container, false)
         init(view)
         myDb = MyDatabase.getInstance(requireActivity())!!
+        s = SharedPref(requireActivity())
 
        mainButton()
         return view
@@ -88,18 +92,25 @@ class KeranjangFragment : Fragment() {
         }
 
         btnBayar.setOnClickListener{
-            var isThereProduk = false
-            for (p in listProduk){
-                if (p.selected) isThereProduk = true
+
+            if (s.getStatusLogin()){
+                var isThereProduk = false
+                for (p in listProduk){
+                    if (p.selected) isThereProduk = true
+                }
+
+                if (isThereProduk) {
+                    val intent = Intent(requireActivity(), PengirimanActivity::class.java)
+                    intent.putExtra("extra","" + totalHarga)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(requireContext(),  "produk yang dipilih tidak ada", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                requireActivity().startActivity(Intent(requireActivity(), MasukActivity::class.java))
             }
 
-            if (isThereProduk) {
-                val intent = Intent(requireActivity(), PengirimanActivity::class.java)
-                intent.putExtra("extra","" + totalHarga)
-                startActivity(intent)
-            } else {
-                Toast.makeText(requireContext(),  "produk yang dipilih tidak ada", Toast.LENGTH_SHORT).show()
-            }
+
 
         }
 
