@@ -91,13 +91,13 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="SKU"
+                                android:text="Produk"
                                 android:textColor="@color/black" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="L99ASD844"
+                                android:text="Daging"
                                 android:textColor="#657191"
                                 android:textSize="13dp" />
 

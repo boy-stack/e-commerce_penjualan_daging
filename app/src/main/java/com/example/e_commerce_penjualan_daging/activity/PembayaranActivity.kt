@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_commerce_penjualan_daging.R
+import com.example.e_commerce_penjualan_daging.adapter.AdapterBank
 import com.example.e_commerce_penjualan_daging.app.ApiConfig
+import com.example.e_commerce_penjualan_daging.model.Bank
 import com.example.e_commerce_penjualan_daging.model.Checkout
 import com.example.e_commerce_penjualan_daging.model.ResponModel
 import com.google.gson.Gson
@@ -18,19 +21,24 @@ class PembayaranActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pembayaran)
 
-        val btn_bca = findViewById<TextView>(R.id.btn_bca)
-        val btn_bri = findViewById<TextView>(R.id.btn_bri)
-        val btn_mandiri = findViewById<TextView>(R.id.btn_mandiri)
+       displayBank()
+    }
 
-        btn_bca.setOnClickListener{
-            bayar("bca")
-        }
-        btn_bri.setOnClickListener{
-         bayar("bri")
-        }
-        btn_mandiri.setOnClickListener{
-            bayar("mandiri")
-        }
+    fun displayBank(){
+        val arrBank = ArrayList<Bank>()
+        arrBank.add(Bank("BCA", "092093871237", "Reza", R.drawable.logo_bca))
+        arrBank.add(Bank("BRI", "86721349128", "Reza", R.drawable.logo_bri))
+        arrBank.add(Bank("Mandiri", "02394870329", "Reza", R.drawable.logo_madiri))
+
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        val rv_data = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rv_data)
+        rv_data.layoutManager = layoutManager
+        rv_data.adapter = AdapterBank(arrBank, object : AdapterBank.Listeners {
+            override fun onClicked(data: Bank, index: Int) {
+                bayar(data.nama)
+            }
+        })
     }
 
     fun bayar(bank: String){
