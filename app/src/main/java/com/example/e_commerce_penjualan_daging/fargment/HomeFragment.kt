@@ -45,12 +45,7 @@ class HomeFragment : Fragment() {
               override fun onResponse(call: Call<ResponModel>, response: Response<ResponModel>) {
                   val res= response.body()!!
                 if (res.success == 1) {
-                    val arrayProduk  = ArrayList<Produk>()
-                    for (p in res.produks){
-                        p.discount = 30000
-                        arrayProduk.add(p)
-                    }
-                    listProduk = arrayProduk
+                    listProduk = res.produks
                     displayProduk()
                 }
               }
@@ -67,7 +62,7 @@ class HomeFragment : Fragment() {
 
         val arrSlider = ArrayList<Int>()
         arrSlider.add(R.drawable.daging_porterhouse)
-        arrSlider.add(R.drawable.daging_ribeye)
+        arrSlider.add(R.drawable.daging_poterhouse1)
 
         val adapterSlider = AdapterSlider(arrSlider, activity)
         dgSlider.adapter = adapterSlider
