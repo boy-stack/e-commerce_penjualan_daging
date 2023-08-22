@@ -45,6 +45,7 @@ class PengirimanActivity : AppCompatActivity() {
         Helper().setToolbar(this,toolbar, "Pengiriman")
         myDb = MyDatabase.getInstance(this)!!
 
+
         totalHarga = Integer.valueOf(intent.getStringExtra("extra")!!)
         val tv_totalBelanja = findViewById<TextView>(R.id.tv_totalBelanja)
         tv_totalBelanja.text = Helper().gantiRupiah(totalHarga)
@@ -97,7 +98,7 @@ class PengirimanActivity : AppCompatActivity() {
         val a = myDb.daoAlamat().getByStatus(true)!!
         tv_nama.text = a.name
         tv_phone.text = a.phone
-        tv_alamat.text = a.alamat + ", " +a.kota +", "+a.kecamatan + ", "+ a.kodepos + ", ("+a.type+ ")"
+        tv_alamat.text = a.alamat + ", " +a.kota + ", "+ a.kodepos + ", ("+a.type+ ")"
         btn_tambah_alamat.text = "Ubah Alamat"
 
            getOngkir("JNE")
@@ -122,6 +123,7 @@ class PengirimanActivity : AppCompatActivity() {
     }
 
     private fun bayar(){
+        val tv_alamat = findViewById<TextView>(R.id.tv_alamat)
         val user = SharedPref(this).getUser()
         val a = myDb.daoAlamat().getByStatus(true)!!
 
@@ -152,6 +154,7 @@ class PengirimanActivity : AppCompatActivity() {
         checkout.jasa_pengiriaman = jasaKirim
         checkout.ongkir = ongkir
         checkout.kurir = kurir
+        checkout.detail_lokasi = tv_alamat.text.toString()
         checkout.total_transfer = "" + (totalHarga + Integer.valueOf(ongkir))
         checkout.produks = produks
 

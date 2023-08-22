@@ -42,6 +42,8 @@
         </activity>
         <activity android:name="com.example.e_commerce_penjualan_daging.activity.PembayaranActivity" />
         <activity android:name="com.example.e_commerce_penjualan_daging.activity.SuccesActivity" />
+        <activity android:name="com.example.e_commerce_penjualan_daging.activity.RiwayatActivity" />
+        <activity android:name="com.example.e_commerce_penjualan_daging.activity.DetailTransaksiActivity" />
     </application>
 
 </manifest>

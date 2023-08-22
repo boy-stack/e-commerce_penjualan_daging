@@ -10,6 +10,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -62,4 +63,10 @@ interface ApiService {
         @Field("weight") weight: Int,
         @Field("courier") courier: String,
     ): Call<ResponOngkir>
+
+    @GET("checkout/user/{id}")
+    fun getRiwayat(
+        @Path("id") id: Int
+    ): Call<ResponModel>
+
 }

@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.e_commerce_penjualan_daging.R
 import com.example.e_commerce_penjualan_daging.activity.LoginActivity
+import com.example.e_commerce_penjualan_daging.activity.RiwayatActivity
 import com.example.e_commerce_penjualan_daging.helper.SharedPref
 
 
@@ -21,6 +23,8 @@ class AkunFragment : Fragment() {
     lateinit var tvPhone:TextView
 
 
+    lateinit var btnRiwayat: RelativeLayout
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_akun, container, false)
@@ -32,17 +36,29 @@ class AkunFragment : Fragment() {
             s.setStatusLogin(false)
         }
 
-        setData()
 
+        mainButton()
+        setData()
         return view
+    }
+
+
+    fun mainButton() {
+        btn_Logout.setOnClickListener {
+            s.setStatusLogin(false)
+        }
+
+        btnRiwayat.setOnClickListener {
+            startActivity(Intent(requireActivity(), RiwayatActivity::class.java))
+        }
     }
 
     fun setData() {
 
         if (s.getUser() == null){
-            val intent = Intent(activity, LoginActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+//            val intent = Intent(activity, LoginActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+//            startActivity(intent)
             return
         }
 
@@ -58,6 +74,7 @@ class AkunFragment : Fragment() {
         tvNama = view.findViewById(R.id.tv_nama)
         tvEmail = view.findViewById(R.id.tv_email)
         tvPhone = view.findViewById(R.id.tv_phone)
+        btnRiwayat = view.findViewById(R.id.btn_riwayat)
 
     }
 
