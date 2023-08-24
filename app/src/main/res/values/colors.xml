@@ -8,7 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="fffff">#823CAD</color>
-    <color name="abuabu">#AFAFAF</color>\
+    <color name="abuabu">#AFAFAF</color>
+    <color name="colorAccent">#001342</color>
 
     <color name="menunggu">#B4A30D</color>
     <color name="selesai">#7DD615</color>

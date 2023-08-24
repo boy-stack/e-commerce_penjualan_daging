@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-android'
-
+    id 'com.google.gms.google-services'
 
 }
 
@@ -90,5 +90,15 @@ dependencies {
     kapt"androidx.room:room-compiler:2.5.2"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
+    // sweet Alert
+    implementation 'com.github.thomper:sweet-alert-dialog:1.4.0'
 
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    implementation "com.google.firebase:firebase-iid:21.1.0"
 }

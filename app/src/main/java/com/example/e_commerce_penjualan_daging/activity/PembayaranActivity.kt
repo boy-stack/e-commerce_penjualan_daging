@@ -14,6 +14,7 @@ import com.example.e_commerce_penjualan_daging.model.Checkout
 import com.example.e_commerce_penjualan_daging.model.ResponModel
 import com.example.e_commerce_penjualan_daging.model.Transaksi
 import com.google.gson.Gson
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,12 +54,23 @@ class PembayaranActivity : AppCompatActivity() {
         val checkout = Gson().fromJson(json, Checkout::class.java)
         checkout.bank = bank.nama
 
+        val loading = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        loading.setTitleText("Loading...").show()
+
         ApiConfig.instanceRetrofit.checkout(checkout).enqueue(object : Callback<ResponModel> {
             override fun onFailure(call: Call<ResponModel>, t: Throwable) {
+                loading.dismiss()
+                error(t.message.toString())
  //               Toast.makeText(this@PengirimanActivity, "Error:" + t.message, Toast.LENGTH_SHORT).show()
             }
 
             override fun onResponse(call: Call<ResponModel>, response: Response<ResponModel>) {
+                loading.dismiss()
+                if (!response.isSuccessful){
+                   error(response.message())
+                    return
+                }
+
                 val respon = response.body()!!
                 if (respon.success == 1) {
 
@@ -73,10 +85,18 @@ class PembayaranActivity : AppCompatActivity() {
                     startActivity(intent)
 
                 } else {
+                    error(respon.message)
                     Toast.makeText(this@PembayaranActivity,  "Error"+respon.message, Toast.LENGTH_SHORT).show()
                 }
             }
         })
+    }
+
+    fun error(pesan:String){
+        SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            .setTitleText("Oops...")
+            .setContentText(pesan)
+            .show()
     }
 
     override fun onSupportNavigateUp(): Boolean {

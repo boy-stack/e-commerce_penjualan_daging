@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_commerce_penjualan_daging.R
@@ -16,6 +15,7 @@ import com.example.e_commerce_penjualan_daging.model.DetailTransaksi
 import com.example.e_commerce_penjualan_daging.model.ResponModel
 import com.example.e_commerce_penjualan_daging.model.Transaksi
 import com.google.gson.Gson
+import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,25 +41,59 @@ class DetailTransaksiActivity : AppCompatActivity() {
     private fun mainButton(){
         val btn_batal = findViewById<Button>(R.id.btn_batal)
         btn_batal.setOnClickListener{
-             batalTransaksi()
+            SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Apakah anda yakin?")
+                .setContentText("Transaksi akan di batalkan dan tidak bisa di kembalikan!")
+                .setConfirmText("Yes,Batalkan")
+                .setConfirmClickListener {
+                    it.dismissWithAnimation()
+                    batalTransaksi()
+                }
+                .setCancelText("Tutup")
+                .setCancelClickListener {
+                    it.dismissWithAnimation()
+                }.show()
         }
     }
 
     fun batalTransaksi(){
+        val loading = SweetAlertDialog(this@DetailTransaksiActivity, SweetAlertDialog.PROGRESS_TYPE)
+            loading.setTitleText("Loading...").show()
+
         ApiConfig.instanceRetrofit.batalCheckout(transaksi.id).enqueue(object : Callback<ResponModel> {
             override fun onFailure(call: Call<ResponModel>, t: Throwable) {
-
+             loading.dismiss()
+                error(t.message.toString())
             }
 
             override fun onResponse(call: Call<ResponModel>, response: Response<ResponModel>) {
+               loading.dismiss()
                 val res = response.body()!!
                 if (res.success == 1) {
-                    Toast.makeText(this@DetailTransaksiActivity, "Transaksi berhasil di Batalkan", Toast.LENGTH_SHORT).show()
-                    onBackPressed()
+
+                    SweetAlertDialog(this@DetailTransaksiActivity, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Succes...")
+                        .setContentText("Transaksi Berhasil di Batalkan!")
+                        .setConfirmClickListener {
+                            it.dismissWithAnimation()
+                            onBackPressed()
+                        }
+                        .show()
+//                    Toast.makeText(this@DetailTransaksiActivity, "Transaksi berhasil di Batalkan", Toast.LENGTH_SHORT).show()
+//                    onBackPressed()
 //                    displayRiwayat(res.transaksis)
+                }else{
+                   error(res.message)
                 }
             }
         })
+    }
+
+    fun error(pesan:String){
+        SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            .setTitleText("Oops...")
+            .setContentText(pesan)
+            .show()
     }
 
     fun setData(t: Transaksi) {

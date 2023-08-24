@@ -1,6 +1,7 @@
 package com.example.e_commerce_penjualan_daging.activity
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -8,6 +9,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.e_commerce_penjualan_daging.MainActivity
 import com.example.e_commerce_penjualan_daging.R
 import com.example.e_commerce_penjualan_daging.R.layout
 import com.example.e_commerce_penjualan_daging.app.ApiConfig
@@ -74,6 +76,10 @@ class RegisterActivity : AppCompatActivity(){
                 if (respon.success == 1) {
                 s.setStatusLogin(true)
                 s.setUser(respon.user)
+                    val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
       //              s.setString(s.nama, respon.user.name)
       //              s.setString(s.phone, respon.user.phone)
       //              s.setString(s.email, respon.user.email)

@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -16,7 +18,9 @@ import com.example.e_commerce_penjualan_daging.fargment.AkunFragment
 import com.example.e_commerce_penjualan_daging.fargment.HomeFragment
 import com.example.e_commerce_penjualan_daging.fargment.KeranjangFragment
 import com.example.e_commerce_penjualan_daging.helper.SharedPref
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +49,20 @@ class MainActivity : AppCompatActivity() {
         setUpBottomNav()
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mmessage, IntentFilter("event:keranjang"))
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Respon", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            Log.d("respon fcm:",token.toString())
+            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+        })
     }
 
       val mmessage : BroadcastReceiver = object :BroadcastReceiver(){
