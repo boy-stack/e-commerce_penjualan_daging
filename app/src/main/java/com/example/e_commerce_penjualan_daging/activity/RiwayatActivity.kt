@@ -23,8 +23,6 @@ class RiwayatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_riwayat)
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         Helper().setToolbar(this, toolbar, "Riwayat Belanja")
-
-        getRiwayat()
     }
 
     fun getRiwayat() {
@@ -58,6 +56,11 @@ class RiwayatActivity : AppCompatActivity() {
             }
         })
         rv_riwayat.layoutManager = layoutManager
+    }
+
+    override fun onResume() {
+        getRiwayat()
+        super.onResume()
     }
 
     override fun onSupportNavigateUp(): Boolean {

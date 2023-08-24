@@ -145,7 +145,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="20dp"
                 android:text="(Kode unik digunakan untuk memudahkan sistem kami dalam melakukan pengecekan pembayaran)"
-                android:textColor="@color/fffff" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,7 +153,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="15dp"
                 android:text="Pembayaran otomatis terdeteksi dalam waktu maksimal 60 menit. apabila Anda mentransfer menggunakan kode unik."
-                android:textColor="@color/fffff" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
 

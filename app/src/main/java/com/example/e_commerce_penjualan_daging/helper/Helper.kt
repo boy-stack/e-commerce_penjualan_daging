@@ -3,8 +3,8 @@ package com.example.e_commerce_penjualan_daging.helper
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.e_commerce_penjualan_daging.R
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 class Helper {
@@ -27,6 +27,12 @@ class Helper {
         activity.supportActionBar!!.title = title
         activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+    fun convertTanggal(tgl: String, formatBaru: String, fromatLama: String = "yyyy-MM-dd'T'hh:mm:ss.SSS'Z'") :String{
+        val dateFormat = SimpleDateFormat(fromatLama)
+        val confert = dateFormat.parse(tgl)
+        dateFormat.applyPattern(formatBaru)
+        return dateFormat.format(confert)
     }
 
 }

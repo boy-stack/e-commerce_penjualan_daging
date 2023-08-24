@@ -42,7 +42,7 @@
                     android:lines="2"
                     android:maxLines="3"
                     android:text="Nama Produk"
-                    android:textColor="@color/design_default_color_primary" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_berat"
@@ -86,7 +86,7 @@
             android:layout_marginBottom="5dp"
             android:gravity="right"
             android:text="Rp.10.000"
-            android:textColor="@color/design_default_color_primary"
+            android:textColor="@color/black"
             android:textSize="16dp"
             android:textStyle="bold" />
 

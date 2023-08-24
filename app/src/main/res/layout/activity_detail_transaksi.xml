@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.BaruActivity">
+    tools:context=".activity.DetailTransaksiActivity">
 
     <include
         layout="@layout/toolbar"
@@ -231,7 +231,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#F3F3F3" />
+                android:background="@color/black" />
 
             <Button
                 android:id="@+id/btn_batal"
