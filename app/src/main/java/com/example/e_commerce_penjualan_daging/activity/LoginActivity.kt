@@ -2,6 +2,7 @@ package com.example.e_commerce_penjualan_daging.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,13 +14,17 @@ import com.example.e_commerce_penjualan_daging.R
 import com.example.e_commerce_penjualan_daging.app.ApiConfig
 import com.example.e_commerce_penjualan_daging.helper.SharedPref
 import com.example.e_commerce_penjualan_daging.model.ResponModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class LoginActivity : AppCompatActivity() {
+
     lateinit var s: SharedPref
+    lateinit var fcm: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,13 +32,27 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         s = SharedPref(this)
+        getFcm()
 
         val proses_login = findViewById<Button>(R.id.btn_login)
         proses_login.setOnClickListener {
             login()
         }
+    }
 
+    private fun getFcm(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Respon", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
 
+            // Get new FCM registration token
+            val token = task.result
+            fcm = token.toString()
+            // Log and toast
+            Log.d("respon fcm:",token.toString())
+        })
     }
     fun login() {
         val edt_email = findViewById<EditText>(R.id.edt_email)
@@ -51,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
 
         val pb = findViewById<ProgressBar>(R.id.pb)
         pb.visibility = View.VISIBLE
-        ApiConfig.instanceRetrofit.login(edt_email.text.toString(), edt_password.text.toString()).enqueue(object : Callback<ResponModel> {
+        ApiConfig.instanceRetrofit.login(edt_email.text.toString(), edt_password.text.toString(), fcm).enqueue(object : Callback<ResponModel> {
             override fun onFailure(call: Call<ResponModel>, t: Throwable) {
                 pb.visibility = View.GONE
                 Toast.makeText(this@LoginActivity, "Error:" + t.message, Toast.LENGTH_SHORT).show()

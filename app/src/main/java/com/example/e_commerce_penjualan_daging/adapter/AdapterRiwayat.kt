@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.e_commerce_penjualan_daging.R
 import com.example.e_commerce_penjualan_daging.helper.Helper
 import com.example.e_commerce_penjualan_daging.model.Transaksi
-import java.text.SimpleDateFormat
 
 class AdapterRiwayat(var data: ArrayList<Transaksi>, var listener: Listeners) : RecyclerView.Adapter<AdapterRiwayat.Holder>() {
 

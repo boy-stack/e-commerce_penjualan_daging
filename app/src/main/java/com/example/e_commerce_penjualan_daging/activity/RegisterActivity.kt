@@ -3,6 +3,7 @@ package com.example.e_commerce_penjualan_daging.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -15,6 +16,8 @@ import com.example.e_commerce_penjualan_daging.R.layout
 import com.example.e_commerce_penjualan_daging.app.ApiConfig
 import com.example.e_commerce_penjualan_daging.helper.SharedPref
 import com.example.e_commerce_penjualan_daging.model.ResponModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,13 +25,15 @@ import retrofit2.Response
 class RegisterActivity : AppCompatActivity(){
 
     lateinit var s: SharedPref
+    lateinit var fcm: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_register)
-        s = SharedPref(this)
 
+        s = SharedPref(this)
+        getFcm()
 
         val btn_register = findViewById<Button>(R.id.btn_register)
         btn_register.setOnClickListener {
@@ -36,6 +41,21 @@ class RegisterActivity : AppCompatActivity(){
         }
 
 
+    }
+
+    private fun getFcm(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("Respon", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            fcm = token.toString()
+            // Log and toast
+            Log.d("respon fcm:",token.toString())
+        })
     }
 
     fun register() {
@@ -63,7 +83,7 @@ class RegisterActivity : AppCompatActivity(){
 
         val pb = findViewById<ProgressBar>(R.id.pb)
         pb.visibility = View.VISIBLE
-        ApiConfig.instanceRetrofit.register(edt_nama.text.toString(), edt_email.text.toString(), edt_phone.text.toString(), edt_password.text.toString()).enqueue(object : Callback<ResponModel> {
+        ApiConfig.instanceRetrofit.register(edt_nama.text.toString(), edt_email.text.toString(), edt_phone.text.toString(), edt_password.text.toString(), fcm).enqueue(object : Callback<ResponModel> {
 
             override fun onFailure(call: Call<ResponModel>, t: Throwable) {
                 pb.visibility = View.GONE

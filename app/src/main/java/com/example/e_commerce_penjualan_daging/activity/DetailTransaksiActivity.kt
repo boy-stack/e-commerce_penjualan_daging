@@ -1,12 +1,23 @@
 package com.example.e_commerce_penjualan_daging.activity
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.e_commerce_penjualan_daging.MainActivity
 import com.example.e_commerce_penjualan_daging.R
 import com.example.e_commerce_penjualan_daging.adapter.AdapterProdukTransaksi
 import com.example.e_commerce_penjualan_daging.app.ApiConfig
@@ -14,13 +25,22 @@ import com.example.e_commerce_penjualan_daging.helper.Helper
 import com.example.e_commerce_penjualan_daging.model.DetailTransaksi
 import com.example.e_commerce_penjualan_daging.model.ResponModel
 import com.example.e_commerce_penjualan_daging.model.Transaksi
+import com.github.drjacky.imagepicker.ImagePicker
+import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.gson.Gson
+import com.inyongtisto.myhelper.base.BaseActivity
+import com.inyongtisto.myhelper.extension.showErrorDialog
+import com.inyongtisto.myhelper.extension.showSuccessDialog
+import com.inyongtisto.myhelper.extension.toGone
+import com.inyongtisto.myhelper.extension.toMultipartBody
 import com.ontbee.legacyforks.cn.pedant.SweetAlert.SweetAlertDialog
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
-class DetailTransaksiActivity : AppCompatActivity() {
+class DetailTransaksiActivity : BaseActivity() {
 
     var transaksi = Transaksi()
 
@@ -54,6 +74,92 @@ class DetailTransaksiActivity : AppCompatActivity() {
                     it.dismissWithAnimation()
                 }.show()
         }
+
+        val btn_bayar = findViewById<Button>(R.id.btn_bayar)
+        btn_bayar.setOnClickListener{
+           imagePic()
+        }
+    }
+
+    private fun imagePic(){
+        ImagePicker.with(this)
+            .crop()
+            .maxResultSize(512, 512, true) //true: Keep Ratio
+            .provider(ImageProvider.BOTH) //Or bothCameraGallery()
+            .createIntentFromDialog { launcher.launch(it) }
+    }
+
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data!!
+                Log.d("TAG", "URI IMAGE: "+ uri)
+                val fileUri: Uri = uri
+                dialogUpload(File(fileUri.path!!))
+            }
+        }
+
+    var alertDialog : AlertDialog? = null
+    @SuppressLint("InflateParams")
+    private fun dialogUpload(file: File){
+
+        val view = layoutInflater
+        val layout = view.inflate(R.layout.view_upload, null)
+
+        val imageView :ImageView = layout.findViewById(R.id.image)
+        val btn_upload: Button = layout.findViewById(R.id.btn_upload)
+        val btn_image: Button = layout.findViewById(R.id.btn_image)
+
+        Picasso.get()
+            .load(file)
+            .into(imageView)
+
+        btn_upload.setOnClickListener{
+           upload(file)
+        }
+
+        btn_image.setOnClickListener{
+            imagePic()
+        }
+
+        alertDialog = AlertDialog.Builder(this).create()
+        alertDialog!!.setView(layout)
+        alertDialog!!.setCancelable(true)
+        alertDialog!!.show()
+    }
+
+    private fun upload(file: File){
+
+        progress.show()
+        val fileImage = file.toMultipartBody()
+        ApiConfig.instanceRetrofit.uploadBukti(transaksi.id, fileImage!!).enqueue(object : Callback<ResponModel> {
+            override fun onFailure(call: Call<ResponModel>, t: Throwable) {
+                progress.dismiss()
+                showErrorDialog(t.message!!)
+            }
+
+            override fun onResponse(call: Call<ResponModel>, response: Response<ResponModel>) {
+                progress.dismiss()
+                if (response.isSuccessful){
+                    if (response.body()!!.success == 1){
+                        showSuccessDialog("Upload Bukti Berhasil"){
+                            alertDialog!!.dismiss()
+                            val btn_bayar = findViewById<Button>(R.id.btn_bayar)
+                            btn_bayar.toGone()
+                            val tv_status = findViewById<TextView>(R.id.tv_status)
+                            tv_status.text = "DIBAYAR"
+                            onBackPressed()
+                        }
+
+                    } else {
+                        showErrorDialog(response.body()!!.message)
+                    }
+
+                } else {
+                    showErrorDialog(response.message())
+                }
+            }
+        })
     }
 
     fun batalTransaksi(){

@@ -2,6 +2,7 @@ package com.example.e_commerce_penjualan_daging.adapter
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,10 +40,11 @@ class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>) : Recyc
         holder.tvNama.text = data[position].name
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
         val image = Config.productUrl + data[position].image
+        Log.d("RESPON", "Image:"+image)
         Picasso.get()
             .load(image)
-            .placeholder(R.drawable.product)
-            .error(R.drawable.product)
+            .placeholder(R.drawable.produk)
+            .error(R.drawable.produk)
             .into(holder.imgProduk)
 
         holder.layout.setOnClickListener {
