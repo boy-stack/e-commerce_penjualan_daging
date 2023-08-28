@@ -39,6 +39,28 @@
             android:layout_height="wrap_content"
             android:text="Rp.0"/>
 
+        <TextView
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/tv_stok1"
+            android:lines="1"
+            android:maxLines="2"
+            android:ellipsize="marquee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stok Produk"/>
+
+        <TextView
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/tv_stok"
+            android:lines="2"
+            android:maxLines="2"
+            android:ellipsize="marquee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+
 
 
     </LinearLayout>

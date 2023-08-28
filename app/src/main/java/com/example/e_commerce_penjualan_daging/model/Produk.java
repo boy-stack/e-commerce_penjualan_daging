@@ -24,5 +24,6 @@ public class Produk implements Serializable {
 
     public int discount = 0;
     public int jumlah = 1;
+    public int stok = 1;
     public boolean selected = true;
 }

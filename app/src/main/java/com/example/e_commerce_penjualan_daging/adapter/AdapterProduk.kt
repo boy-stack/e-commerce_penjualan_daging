@@ -23,6 +23,8 @@ class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>) : Recyc
     class Holder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNama = view.findViewById<TextView>(R.id.tv_nama)
         val tvHarga = view.findViewById<TextView>(R.id.tv_harga)
+        val tvStok1 = view.findViewById<TextView>(R.id.tv_stok1)
+        val tvStok = view.findViewById<TextView>(R.id.tv_stok)
         val imgProduk = view.findViewById<ImageView>(R.id.img_produk)
         val layout = view.findViewById<CardView>(R.id.layout)
     }
@@ -39,6 +41,7 @@ class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>) : Recyc
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.tvNama.text = data[position].name
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
+        holder.tvStok.text = data[position].stok.toString()
         val image = Config.productUrl + data[position].image
         Log.d("RESPON", "Image:"+image)
         Picasso.get()

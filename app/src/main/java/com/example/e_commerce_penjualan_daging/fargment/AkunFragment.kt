@@ -9,7 +9,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.e_commerce_penjualan_daging.R
-import com.example.e_commerce_penjualan_daging.activity.LoginActivity
 import com.example.e_commerce_penjualan_daging.activity.RiwayatActivity
 import com.example.e_commerce_penjualan_daging.helper.SharedPref
 
