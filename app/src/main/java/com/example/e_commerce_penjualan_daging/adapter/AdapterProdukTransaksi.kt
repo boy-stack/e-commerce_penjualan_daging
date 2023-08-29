@@ -24,6 +24,7 @@ class AdapterProdukTransaksi(var data: ArrayList<DetailTransaksi>) : RecyclerVie
         val tvHarga = view.findViewById<TextView>(R.id.tv_harga)
         val tvTotalHarga = view.findViewById<TextView>(R.id.tv_totalHarga)
         val tvJumlah = view.findViewById<TextView>(R.id.tv_jumlah)
+        val tv_berat = view.findViewById<TextView>(R.id.tv_berat)
         val layout = view.findViewById<CardView>(R.id.layout)
     }
 
@@ -50,6 +51,7 @@ class AdapterProdukTransaksi(var data: ArrayList<DetailTransaksi>) : RecyclerVie
         holder.tvHarga.text = Helper().gantiRupiah(p.harga)
         holder.tvTotalHarga.text = Helper().gantiRupiah(a.total_harga)
         holder.tvJumlah.text = a.total_item.toString() + " Items"
+        holder.tv_berat.text = p.berat
 
         holder.layout.setOnClickListener {
 //            listener.onClicked(a)

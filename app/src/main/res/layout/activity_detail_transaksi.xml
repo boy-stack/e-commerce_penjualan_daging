@@ -236,20 +236,20 @@
             <Button
                 android:id="@+id/btn_bayar"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/bg_btn_beli"
+                android:backgroundTint="@color/fffff"
                 android:text="Uplouad Bukti Transfer"
                 android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btn_batal"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_margin="10dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/bg_btn_batal"
+                android:backgroundTint="@color/batal"
                 android:text="Batalkan transaksi"
                 android:textColor="@color/white" />
 

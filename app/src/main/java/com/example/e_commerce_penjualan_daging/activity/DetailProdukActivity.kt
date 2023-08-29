@@ -121,10 +121,12 @@ class DetailProdukActivity : AppCompatActivity() {
         val tv_deskripsi = findViewById<TextView>(R.id.tv_deskripsi)
         val image = findViewById<ImageView>(R.id.image)
         val jumlah_stok = findViewById<TextView>(R.id.jumlah_stok)
+        val tv_berat = findViewById<TextView>(R.id.tv_berat)
         tv_nama.text = produk.name
         tv_harga.text = Helper().gantiRupiah(produk.harga)
         tv_deskripsi.text = produk.deskripsi
         jumlah_stok.text = produk.stok.toString()
+        tv_berat.text = produk.berat
 
 
         val img = Config.productUrl + produk.image
